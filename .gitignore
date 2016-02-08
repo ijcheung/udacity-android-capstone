@@ -40,5 +40,6 @@ proguard/
 # Android Studio captures folder
 captures/
 
-# Mocks Folder
+# ETC Folders
 mocks/
+app/mapping/
