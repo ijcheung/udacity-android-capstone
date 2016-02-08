@@ -1,0 +1,22 @@
+<resources>
+    <string name="title_activity_settings">Cài Đặt</string>
+    <!-- Strings related to Settings -->
+    <!-- Display Settings -->
+    <string name="pref_header_display">Trưng Bày</string>
+
+    <string name="pref_title_keep_screen_on">Giữ Màn Hình Trên</string>
+    <string name="pref_title_text_size">Kích Thước Văn Bản</string>
+    <string name="pref_title_text_color">Màu Chữ</string>
+    <string name="pref_title_text_stroke_color">Màu Sắc Nét</string>
+    <string name="pref_title_text_highlight_color">Màu Nổi Bật </string>
+
+    <!-- Legal Settings -->
+    <string name="pref_header_legal">Hợp Pháp</string>
+
+    <string name="pref_title_terms">Điều Khoản Dịch Vụ</string>
+    <string name="pref_title_privacy">Chính Sách Bảo Mật</string>
+    <string name="pref_title_open_source">Giấy Phép Mã Nguồn Mở</string>
+
+    <string name="link_terms">http://www.karaokyo.com/vi/tos</string>
+    <string name="link_privacy">http://www.karaokyo.com/vi/privacy</string>
+</resources>

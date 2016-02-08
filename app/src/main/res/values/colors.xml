@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="notification_tint">#afff</color>
+    <!--color name="action_bar_background">#74F</color>
+    <color name="notification_area">#73D</color>
+    <color name="list_item_highlight">#A94D</color-->
+    <color name="action_bar_background">#8567d7</color>
+    <color name="notification_area">#7257bb</color>
+    <color name="accent">#A94D</color>
+</resources>

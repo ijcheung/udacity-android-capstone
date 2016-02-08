@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentLeft="true"
+        android:background="#389933ff"
+        android:src="@drawable/ic_launcher"
+        android:scaleType="center" />
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:divider="?android:listDivider"
+        android:dividerPadding="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:showDividers="middle" >
+        <!--ImageButton
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:id="@+id/zoomOut"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_zoom_out"
+            style="@android:style/Widget.Holo.Button.Borderless" />
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:id="@+id/zoomIn"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_zoom_in"
+            style="@android:style/Widget.Holo.Button.Borderless" /-->
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:id="@+id/back"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_back"
+            style="@android:style/Widget.Holo.Button.Borderless" />
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:id="@+id/play"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_play"
+            style="@android:style/Widget.Holo.Button.Borderless" />
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:id="@+id/forward"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_forward"
+            style="@android:style/Widget.Holo.Button.Borderless" />
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:id="@+id/close"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_close"
+            style="@android:style/Widget.Holo.Button.Borderless" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:layout_toEndOf="@+id/thumbnail"
+        android:layout_toLeftOf="@+id/buttons"
+        android:layout_toStartOf="@+id/buttons"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:textAppearance="@style/NotificationTitle"
+        tools:text="Title" />
+    <TextView
+        android:id="@+id/artist"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:layout_toEndOf="@+id/thumbnail"
+        android:layout_toLeftOf="@+id/buttons"
+        android:layout_toStartOf="@+id/buttons"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+        android:textAppearance="@style/NotificationSubtitle"
+        tools:text="Artist" />
+</RelativeLayout>

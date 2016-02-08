@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Karaokyo</string>
+    <string name="title_activity_audio_picker">附加音频</string>
+    <string name="title_activity_playlist_picker">選擇播放列表</string>
+    <string name="title_activity_lyric_search">查找歌词</string>
+    <string name="title_activity_lyric_display">查看歌词</string>
+    <string name="title_activity_open_source">開源許可證</string>
+    <string name="action_settings">設置</string>
+    <string name="action_refresh">刷新</string>
+    <string name="action_new">新</string>
+
+    <!--Drawer-->
+    <string name="navigation_drawer_open">打開導航抽屜</string>
+    <string name="navigation_drawer_close">關閉導航抽屜</string>
+
+    <!-- Dialogs -->
+    <string name="new_playlist">新建播放列表</string>
+    <string name="rename_playlist">重命名播放列表</string>
+    <string name="delete_playlist_confirm">您確定要刪除這個播放列表?</string>
+    <string name="delete_lyric_confirm">您確定要刪除這個歌詞?</string>
+    <string name="delete_song_confirm">您確定你要刪除這首歌?</string>
+
+    <string name="ok">確定</string>
+    <string name="cancel">取消</string>
+
+    <!-- Tab Names -->
+    <string name="library">音樂庫</string>
+    <string name="lyrics">歌詞</string>
+    <string name="playlists">播放列表</string>
+    <string name="now_playing">正在播放</string>
+
+    <!-- Options -->
+    <string name="add_to_playlist">添加到播放列表</string>
+    <string name="attach_audio">附加音频</string>
+    <string name="delete">刪除</string>
+    <string name="rename">重命名</string>
+    <string name="play">播放</string>
+    <string name="remove">拆除</string>
+
+    <!-- Lyric Search -->
+    <string name="title">稱號</string>
+    <string name="artist">歌手</string>
+    <string name="uploader_label">上傳:</string>
+    <string name="rating_label">等級:</string>
+    <string name="description_label">描述:</string>
+    <string name="search">搜索</string>
+    <string name="download">下載</string>
+    <string name="view_in_browser">查看瀏覽器</string>
+    <string name="no_lyrics_found">找不到歌詞</string>
+    <string name="load_more_lyrics">加載更多歌詞…</string>
+    <string name="link_lyric">http://www.karaokyo.com/zh-TW/lyrics/</string>
+
+    <!-- Toasts -->
+    <string name="download_complete">下載完成</string>
+    <string name="download_failed">下載失敗</string>
+
+    <!-- Errors -->
+    <string name="error_no_songs_added">請先添加歌曲到播放列表中!</string>
+    <string name="error_playback">音頻文件無法播放</string>
+    <string name="error_attach_audio">音頻文件無法連接</string>
+    <string name="error_missing_audio">音頻文件已被刪除</string>
+
+    <string name="error_lyric_has_invalid_timecode">歌詞數據擁有無效的時限</string>
+    <string name="error_lyric_not_xml">歌詞檔案已損壞</string>
+    <string name="error_lyric_not_found">歌詞檔案已被刪除</string>
+
+    <string name="error_playlist_name_exists">該名稱的播放列表已經存在</string>
+    <string name="error_playlist_name_empty">名稱不能留空</string>
+
+    <string name="error_no_connection">網絡連接不能建立</string>
+    <string name="error_server_down">歌詞查找服務不能在這個時候到達。請稍後再試。</string>
+    <string name="error_malformed_json">服務器響應有問題。請稍後再試。</string>
+    <string name="error_no_attached_audio">這歌詞文件沒有附加到它的音頻上</string>
+</resources>

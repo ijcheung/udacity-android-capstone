@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Karaokyo</string>
+    <string name="title_activity_audio_picker">Đính Kèm Âm Thanh</string>
+    <string name="title_activity_playlist_picker">Chọn Danh Sách Chơi</string>
+    <string name="title_activity_lyric_search">Tìm Lời Hát</string>
+    <string name="title_activity_lyric_display">Kiểm Tra Lời Hát</string>
+    <string name="title_activity_open_source">Giấy Phép Mã Nguồn Mở</string>
+    <string name="action_settings">Cài Đặt</string>
+    <string name="action_refresh">Làm Mới</string>
+    <string name="action_new">Mới</string>
+
+    <!--Drawer-->
+    <string name="navigation_drawer_open">Mở ngăn kéo navigation</string>
+    <string name="navigation_drawer_close">Đóng ngăn kéo navigation</string>
+
+    <!-- Dialogs -->
+    <string name="new_playlist">Danh Sách Mới</string>
+    <string name="rename_playlist">Đổi Tên Danh Sách</string>
+    <string name="delete_playlist_confirm">Bạn có chắc chắn muốn xóa danh sách này?</string>
+    <string name="delete_lyric_confirm">Bạn có chắc chắn muốn xóa lời hát này?</string>
+    <string name="delete_song_confirm">Bạn có chắc chắn muốn xóa bài hát này?</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Hủy</string>
+
+    <!-- Tab Names -->
+    <string name="library">Thư Viện</string>
+    <string name="lyrics">Lời Hát</string>
+    <string name="playlists">Danh Sách</string>
+    <string name="now_playing">Đang Chơi</string>
+
+    <!-- Options -->
+    <string name="add_to_playlist">Thêm Vào Danh Sách</string>
+    <string name="attach_audio">Đính Kèm Âm Nhạc</string>
+    <string name="delete">Xóa Bỏ</string>
+    <string name="rename">Đổi Tên</string>
+    <string name="play">Chơi</string>
+    <string name="remove">Tẩy</string>
+
+    <!-- Lyric Search -->
+    <string name="title">Tiêu Đề</string>
+    <string name="artist">Ca Sĩ</string>
+    <string name="uploader_label">Người Tải Lên:</string>
+    <string name="rating_label">Đánh Giá:</string>
+    <string name="description_label">Miêu Tả:</string>
+    <string name="search">Tìm Kiếm</string>
+    <string name="download">Tải Về</string>
+    <string name="view_in_browser">Xem Trong Trình Duyệt</string>
+    <string name="no_lyrics_found">Không tìm thấy lời hát</string>
+    <string name="load_more_lyrics">Tải nhiều lời hát…</string>
+    <string name="link_lyric">http://www.karaokyo.com/vi/lyrics/</string>
+
+    <!-- Toasts -->
+    <string name="download_complete">Tải Về Hoàn Tất</string>
+    <string name="download_failed">Tải Về Thất Bại</string>
+
+    <!-- Errors -->
+    <string name="error_no_songs_added">Hãy thêm bài hát vào danh sách của bạn trước khi chơi!</string>
+    <string name="error_playback">Các tập tin âm thanh không thể diễn ra</string>
+    <string name="error_attach_audio">Các tập tin âm thanh có thể không được đính kèm</string>
+    <string name="error_missing_audio">Các tập tin âm thanh đã bị xóa</string>
+
+    <string name="error_lyric_has_invalid_timecode">Dữ liệu lời hát mã thời gian không hợp lệ</string>
+    <string name="error_lyric_not_xml">Tài liệu lời hát bị hỏng</string>
+    <string name="error_lyric_not_found">Tài liệu lời hát đã bị xóa</string>
+
+    <string name="error_playlist_name_exists">Danh sách trùng tên</string>
+    <string name="error_playlist_name_empty">Tên không thể để trống</string>
+
+    <string name="error_no_connection">Không thể kết nối Internet</string>
+    <string name="error_server_down">Các dịch vụ tra cứu lời hát không thể đạt được tại thời điểm này. Vui lòng thử lại sau.</string>
+    <string name="error_malformed_json">Có một vấn đề với các máy chủ ứng. Vui lòng thử lại sau.</string>
+    <string name="error_no_attached_audio">Tài liệu lời hát này không có một tập tin âm nhạc gắn liền</string>
+</resources>

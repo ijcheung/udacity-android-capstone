@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:title="@string/pref_header_display">
+        <CheckBoxPreference
+            android:key="@string/pref_key_keep_screen_on"
+            android:defaultValue="false"
+            android:title="@string/pref_title_keep_screen_on" />
+        <com.karaokyo.android.lib.preference.slider.SliderPreference
+            android:key="@string/pref_key_text_size"
+            android:defaultValue="70"
+            android:title="@string/pref_title_text_size"
+            app:max="100"
+            app:min="50" />
+        <com.karaokyo.android.lib.preference.colorpicker.ColorPickerPreference
+            android:key="@string/pref_key_text_color"
+            android:defaultValue="0xff000000"
+            android:title="@string/pref_title_text_color" />
+        <com.karaokyo.android.lib.preference.colorpicker.ColorPickerPreference
+            android:key="@string/pref_key_text_stroke_color"
+            android:defaultValue="0xffffffff"
+            android:title="@string/pref_title_text_stroke_color" />
+        <com.karaokyo.android.lib.preference.colorpicker.ColorPickerPreference
+            android:key="@string/pref_key_text_highlight_color"
+            android:defaultValue="0xff9932CC"
+            android:title="@string/pref_title_text_highlight_color" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_header_legal">
+        <Preference android:title="@string/pref_title_terms">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/link_terms"
+                />
+        </Preference>
+        <Preference android:title="@string/pref_title_privacy">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/link_privacy"
+                />
+        </Preference>
+        <Preference android:title="@string/pref_title_open_source">
+            <intent android:targetPackage="com.karaokyo.android.app.player"
+                android:targetClass="com.karaokyo.android.app.player.activity.OpenSourceActivity"/>
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

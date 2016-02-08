@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Karaokyo Components</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- A11y -->
+    <string name="a11y_arrow">To</string>
+</resources>

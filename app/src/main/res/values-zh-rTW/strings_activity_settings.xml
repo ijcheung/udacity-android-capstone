@@ -1,0 +1,22 @@
+<resources>
+    <string name="title_activity_settings">設置</string>
+    <!-- Strings related to Settings -->
+    <!-- Display Settings -->
+    <string name="pref_header_display">顯示</string>
+
+    <string name="pref_title_keep_screen_on">保留屏幕</string>
+    <string name="pref_title_text_size">文字大小</string>
+    <string name="pref_title_text_color">文字颜色</string>
+    <string name="pref_title_text_stroke_color">筆觸顏色</string>
+    <string name="pref_title_text_highlight_color">亮點顏色</string>
+
+    <!-- Legal Settings -->
+    <string name="pref_header_legal">法律</string>
+
+    <string name="pref_title_terms">服務條款</string>
+    <string name="pref_title_privacy">隱私政策</string>
+    <string name="pref_title_open_source">開源許可證</string>
+
+    <string name="link_terms">http://www.karaokyo.com/zh-TW/tos</string>
+    <string name="link_privacy">http://www.karaokyo.com/zh-TW/privacy</string>
+</resources>

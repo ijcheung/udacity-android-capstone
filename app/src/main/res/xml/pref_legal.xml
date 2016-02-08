@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference android:title="@string/pref_title_terms">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/link_terms"
+            />
+    </Preference>
+    <Preference android:title="@string/pref_title_privacy">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/link_privacy"
+            />
+    </Preference>
+    <Preference android:title="@string/pref_title_open_source">
+        <intent android:targetPackage="com.karaokyo.android.app.player"
+                android:targetClass="com.karaokyo.android.app.player.activity.OpenSourceActivity"/>
+    </Preference>
+</PreferenceScreen>

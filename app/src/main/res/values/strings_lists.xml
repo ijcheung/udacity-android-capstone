@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tab Names -->
+    <string-array name="fragment_names">
+        <item name="library">@string/library</item>
+        <item name="lyrics">@string/lyrics</item>
+        <item name="playlists">@string/playlists</item>
+        <item name="now_playing">@string/now_playing</item>
+    </string-array>
+
+    <!-- Context Menus-->
+    <string-array name="library_options">
+        <item name="add_to_playlist">@string/add_to_playlist</item>
+        <item name="delete">@string/delete</item>
+    </string-array>
+    <string-array name="lyric_options">
+        <item name="add_to_playlist">@string/add_to_playlist</item>
+        <item name="attach_audio">@string/attach_audio</item>
+        <item name="delete">@string/delete</item>
+    </string-array>
+    <string-array name="playlists_options">
+        <item name="rename">@string/rename</item>
+        <item name="delete">@string/delete</item>
+    </string-array>
+    <string-array name="playlist_options">
+        <item name="play">@string/play</item>
+        <item name="remove">@string/remove</item>
+    </string-array>
+</resources>

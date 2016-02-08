@@ -1,0 +1,31 @@
+<resources>
+    <string name="title_activity_settings">Settings</string>
+    <!-- Strings related to Settings -->
+    <!-- Display Settings -->
+    <string name="pref_header_display">Display</string>
+
+    <string name="pref_title_keep_screen_on">Keep Screen On</string>
+    <string name="pref_title_text_size">Text Size</string>
+    <string name="pref_title_text_color">Text Color</string>
+    <string name="pref_title_text_stroke_color">Stroke Color</string>
+    <string name="pref_title_text_highlight_color">Highlight Color</string>
+
+    <string name="pref_key_keep_screen_on" translatable="false">pref_key_keep_screen_on</string>
+    <string name="pref_key_text_size" translatable="false">pref_key_text_size</string>
+    <string name="pref_key_text_color" translatable="false">pref_key_text_color</string>
+    <string name="pref_key_text_stroke_color" translatable="false">pref_key_text_stroke_color</string>
+    <string name="pref_key_text_highlight_color" translatable="false">pref_key_text_highlight_color</string>
+
+    <!-- Legal Settings -->
+    <string name="pref_header_legal">Legal</string>
+
+    <string name="pref_title_terms">Terms of Service</string>
+    <string name="pref_title_privacy">Privacy Policy</string>
+    <string name="pref_title_open_source">Open Source Licenses</string>
+
+    <string name="link_terms">http://www.karaokyo.com/en/tos</string>
+    <string name="link_privacy">http://www.karaokyo.com/en/privacy</string>
+
+    <!-- Misc -->
+    <string name="pref_key_current_playlist" translatable="false">pref_key_current_playlist</string>
+</resources>

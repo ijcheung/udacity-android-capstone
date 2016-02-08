@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header android:fragment="com.karaokyo.android.app.player.fragment.settings.DisplayPreferenceFragment"
+        android:title="@string/pref_header_display" />
+    <header android:fragment="com.karaokyo.android.app.player.fragment.settings.LegalPreferenceFragment"
+        android:title="@string/pref_header_legal" />
+</preference-headers>

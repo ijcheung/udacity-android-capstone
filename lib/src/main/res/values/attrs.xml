@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Drawable used as a background for activated items. -->
+    <attr name="activatedBackgroundIndicator" format="reference" />
+
+    <declare-styleable name="ColorPickerPreference">
+        <attr name="supportsAlpha"
+              format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="SliderPreference">
+        <attr name="min"
+              format="integer"/>
+        <attr name="max"
+            format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="StrokedTextView">
+        <attr name="strokeWidth"
+              format="dimension"/>
+        <attr name="strokeColor"
+              format="color"/>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,27 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <CheckBoxPreference
+        android:key="@string/pref_key_keep_screen_on"
+        android:defaultValue="false"
+        android:title="@string/pref_title_keep_screen_on" />
+    <com.karaokyo.android.lib.preference.slider.SliderPreference
+        android:key="@string/pref_key_text_size"
+        android:defaultValue="70"
+        android:title="@string/pref_title_text_size"
+        app:max="100"
+        app:min="50" />
+    <com.karaokyo.android.lib.preference.colorpicker.ColorPickerPreference
+        android:key="@string/pref_key_text_color"
+        android:defaultValue="0xff000000"
+        android:title="@string/pref_title_text_color" />
+    <com.karaokyo.android.lib.preference.colorpicker.ColorPickerPreference
+        android:key="@string/pref_key_text_stroke_color"
+        android:defaultValue="0xffffffff"
+        android:title="@string/pref_title_text_stroke_color" />
+    <com.karaokyo.android.lib.preference.colorpicker.ColorPickerPreference
+        android:key="@string/pref_key_text_highlight_color"
+        android:defaultValue="0xff9932CC"
+        android:title="@string/pref_title_text_highlight_color" />
+
+</PreferenceScreen>
