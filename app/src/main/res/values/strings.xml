@@ -51,7 +51,7 @@
     <string name="link_lyric">http://www.karaokyo.com/en/lyrics/</string>
 
     <!-- Now Playing -->
-    <string name="timer_zero">0:00</string>
+    <string name="timer_zero" translatable="false">0:00</string>
     <string name="back">Back</string>
     <string name="forward">Forward</string>
 

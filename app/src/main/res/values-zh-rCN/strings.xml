@@ -51,6 +51,15 @@
     <string name="load_more_lyrics">加载更多歌词…</string>
     <string name="link_lyric">http://www.karaokyo.com/zh-CN/lyrics/</string>
 
+    <!-- Now Playing -->
+    <string name="back">回</string>
+    <string name="forward">前</string>
+
+    <!-- Empty -->
+    <string name="empty_library">没找到歌曲</string>
+    <string name="empty_lyrics">没找到歌词</string>
+    <string name="empty_playlists">没找到播放列表</string>
+
     <!-- Toasts -->
     <string name="download_complete">下载完成</string>
     <string name="download_failed">下载失败</string>
@@ -68,8 +77,13 @@
     <string name="error_playlist_name_exists">该名称的播放列表已经存在</string>
     <string name="error_playlist_name_empty">名称不能留空</string>
 
+    <string name="error_unable_to_add_song">无法添加歌曲</string>
+
     <string name="error_no_connection">网络连接不能建立</string>
     <string name="error_server_down">歌词查找服务不能在这个时候到达。请稍后再试。</string>
     <string name="error_malformed_json">服务器响应有问题。请稍后再试。</string>
     <string name="error_no_attached_audio">这歌词文件没有附加到它的音频上</string>
+
+    <!-- A11y -->
+    <string name="a11y_flag">旗</string>
 </resources>

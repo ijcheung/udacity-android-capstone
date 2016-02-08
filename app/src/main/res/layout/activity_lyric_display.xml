@@ -43,6 +43,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="left|start"
                     android:id="@+id/uploader"/>
             </TableRow>
             <TableRow
@@ -80,6 +81,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="left|start"
                     android:id="@+id/description"/>
             </TableRow>
         </TableLayout>

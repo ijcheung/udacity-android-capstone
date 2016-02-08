@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        fake {
+            keyAlias 'fakekey'
+            keyPassword 'fakekey'
+            storeFile file('../fake.jks')
+            storePassword 'fakekey'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId "com.karaokyo.android.app.player"
         minSdkVersion 16
@@ -24,6 +31,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.fake
         }
     }
 }

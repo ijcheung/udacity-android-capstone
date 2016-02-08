@@ -20,3 +20,7 @@
 -dontwarn org.jaxen.**
 
 -keep public class mf.org.apache.xerces.impl.dv.dtd.DTDDVFactoryImpl
+
+#Play Services Proguard Workaround
+-keep class com.google.android.gms.** { *; }
+-dontwarn com.google.android.gms.**

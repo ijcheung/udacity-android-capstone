@@ -51,6 +51,15 @@
     <string name="load_more_lyrics">Tải nhiều lời hát…</string>
     <string name="link_lyric">http://www.karaokyo.com/vi/lyrics/</string>
 
+    <!-- Now Playing -->
+    <string name="back">Trở Lại</string>
+    <string name="forward">Chuyển</string>
+
+    <!-- Empty -->
+    <string name="empty_library">Không tìm thấy bài hát</string>
+    <string name="empty_lyrics">Không tìm thấy lời bài hát</string>
+    <string name="empty_playlists">Không tìm thấy danh sách nhạc</string>
+
     <!-- Toasts -->
     <string name="download_complete">Tải Về Hoàn Tất</string>
     <string name="download_failed">Tải Về Thất Bại</string>
@@ -68,8 +77,13 @@
     <string name="error_playlist_name_exists">Danh sách trùng tên</string>
     <string name="error_playlist_name_empty">Tên không thể để trống</string>
 
+    <string name="error_unable_to_add_song">Không thể thêm bài hát</string>
+
     <string name="error_no_connection">Không thể kết nối Internet</string>
     <string name="error_server_down">Các dịch vụ tra cứu lời hát không thể đạt được tại thời điểm này. Vui lòng thử lại sau.</string>
     <string name="error_malformed_json">Có một vấn đề với các máy chủ ứng. Vui lòng thử lại sau.</string>
     <string name="error_no_attached_audio">Tài liệu lời hát này không có một tập tin âm nhạc gắn liền</string>
+
+    <!-- A11y -->
+    <string name="a11y_flag">Cờ</string>
 </resources>
