@@ -3,6 +3,7 @@ package com.karaokyo.android.app.player.activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,10 +33,11 @@ import com.karaokyo.android.app.player.fragment.LyricFragment;
 import com.karaokyo.android.app.player.fragment.NavigationDrawerFragment;
 import com.karaokyo.android.app.player.fragment.PlaylistFragment;
 import com.karaokyo.android.app.player.fragment.PlaylistsFragment;
-import com.karaokyo.android.app.player.helper.PlaylistDataSource;
 import com.karaokyo.android.app.player.model.Playlist;
 import com.karaokyo.android.app.player.model.Song;
 import com.karaokyo.android.app.player.provider.LyricContract;
+import com.karaokyo.android.app.player.provider.PlaylistContract;
+import com.karaokyo.android.app.player.provider.PlaylistDatabaseHelper;
 import com.karaokyo.android.app.player.service.LyricService;
 import com.karaokyo.android.app.player.task.LyricScanTaskFragment;
 import com.karaokyo.android.app.player.util.Constants;
@@ -78,7 +80,6 @@ public class MainActivity extends SelfClosingActivity implements
     private Intent playIntent;
     private LyricService lyricService;
     private ContentResolver mResolver;
-    private PlaylistDataSource mPlaylistDataSource;
 
     private ServiceConnection lyricConnection = new ServiceConnection(){
         @Override
@@ -106,17 +107,20 @@ public class MainActivity extends SelfClosingActivity implements
         mSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mSharedPref.edit();
         mResolver = getContentResolver();
-        mPlaylistDataSource = new PlaylistDataSource(this);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTwoPane = mNavigationDrawerFragment != null;
 
-        if(mTwoPane){
+        if(mTwoPane) {
             // Set up the drawer.
             mNavigationDrawerFragment.setUp(
                     R.id.navigation_drawer,
                     (DrawerLayout) findViewById(R.id.drawer_layout));
+        }
+        else {
+            mNavigationDrawerFragment = (NavigationDrawerFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.navigation_pane);
         }
 
         playIntent = new Intent(this, LyricService.class);
@@ -282,21 +286,8 @@ public class MainActivity extends SelfClosingActivity implements
                                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-                                                /*if (lyricFile.exists()) {
-                                                    lyricFile.delete();
-                                                }
-
-                                                mResolver.delete(LyricContract.CONTENT_URI, LyricContract.FILEPATH + " = ?", new String[]{song.getLyricFile()});*/
-                                                ContentResolver musicResolver = getContentResolver();
                                                 Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                                                musicResolver.delete(musicUri, android.provider.MediaStore.Audio.Media._ID + "= ?", new String[]{Long.toString(song.getSongId())});
-                                                try {
-                                                    LibraryFragment fragment = (LibraryFragment) getSupportFragmentManager().findFragmentById(R.id.container);
-                                                    fragment.deleteSong(song);
-                                                } catch (ClassCastException e) {
-                                                    // This shouldn't happen...
-                                                    Log.e(TAG, "Song deleted while LibraryFragment was not active");
-                                                }
+                                                mResolver.delete(musicUri, android.provider.MediaStore.Audio.Media._ID + "= ?", new String[]{Long.toString(song.getSongId())});
                                             }
                                         })
                                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -346,13 +337,6 @@ public class MainActivity extends SelfClosingActivity implements
                                                 }
 
                                                 mResolver.delete(LyricContract.CONTENT_URI, LyricContract.FILEPATH + " = ?", new String[]{song.getLyricFile()});
-                                                try {
-                                                    LyricFragment fragment = ((LyricFragment) getSupportFragmentManager().findFragmentById(R.id.container));
-                                                    fragment.deleteLyric(song);
-                                                } catch (ClassCastException e) {
-                                                    // This shouldn't happen...
-                                                    Log.e(TAG, "Lyric deleted while LyricFragment was not active");
-                                                }
                                             }
                                         })
                                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -381,7 +365,8 @@ public class MainActivity extends SelfClosingActivity implements
                             switch(which){
                                 //Rename
                                 case 0:
-                                    final EditText input = new EditText(MainActivity.this, null, R.style.AppTheme);
+                                    final EditText input = new EditText(MainActivity.this);
+                                    input.setText(playlist.getTitle());
                                     input.setSingleLine(true);
 
                                     new AlertDialog.Builder(MainActivity.this)
@@ -405,15 +390,11 @@ public class MainActivity extends SelfClosingActivity implements
                                                                 }
 
                                                                 playlist.setTitle(filename);
-                                                                mPlaylistDataSource.open();
-                                                                mPlaylistDataSource.updatePlaylist(playlist);
-                                                                mPlaylistDataSource.close();
-                                                                try {
-                                                                    ((PlaylistsFragment) getSupportFragmentManager().findFragmentById(R.id.container)).notifyDataSetChanged();
-                                                                } catch (ClassCastException e) {
-                                                                    // This shouldn't happen...
-                                                                    Log.e(TAG, "Playlist renamed while PlaylistsFragment was not active");
-                                                                }
+                                                                ContentValues values = new ContentValues();
+                                                                values.put(PlaylistDatabaseHelper.COLUMN_TITLE, playlist.getTitle());
+                                                                mResolver.update(PlaylistContract.CONTENT_URI, values,
+                                                                        PlaylistDatabaseHelper.COLUMN_ID + " = " + playlist.getId(),
+                                                                        null);
                                                             }
                                                         }
                                                     } else {
@@ -445,17 +426,8 @@ public class MainActivity extends SelfClosingActivity implements
                                                         mEditor.commit();
                                                     }
 
-                                                    mPlaylistDataSource.open();
-                                                    mPlaylistDataSource.deletePlaylist(playlist);
-                                                    mPlaylistDataSource.close();
-                                                    try {
-                                                        PlaylistsFragment fragment = ((PlaylistsFragment) getSupportFragmentManager().findFragmentById(R.id.container));
-                                                        fragment.deletePlaylist(playlist);
-                                                        fragment.notifyDataSetChanged();
-                                                    } catch (ClassCastException e) {
-                                                        // This shouldn't happen...
-                                                        Log.e(TAG, "Playlist deleted while PlaylistsFragment was not active");
-                                                    }
+                                                    mResolver.delete(PlaylistContract.CONTENT_URI, PlaylistDatabaseHelper.COLUMN_ID
+                                                            + " = " + playlist.getId(), null);
                                                 }
                                             })
                                             .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

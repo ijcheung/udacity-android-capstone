@@ -1,6 +1,7 @@
 package com.karaokyo.android.app.player.helper;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,36 +9,36 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.karaokyo.android.app.player.R;
-import com.karaokyo.android.app.player.model.Playlist;
-
-import java.util.ArrayList;
 
 public class PlaylistAdapter extends BaseAdapter {
-    private ArrayList<Playlist> playlists;
+    private Cursor mCursor;
     private LayoutInflater mLayoutInflater;
 
-    public PlaylistAdapter(Context c, ArrayList<Playlist> playlists){
-        this.playlists = playlists;
-        mLayoutInflater=LayoutInflater.from(c);
+    public PlaylistAdapter(Context c, Cursor cursor){
+        mCursor = cursor;
+        mLayoutInflater = LayoutInflater.from(c);
     }
 
     @Override
     public int getCount() {
-        return playlists.size();
+        return mCursor.getCount();
     }
 
     @Override
-    public Object getItem(int arg0) {
+    public Object getItem(int position) {
         return null;
     }
 
     @Override
-    public long getItemId(int arg0) {
-        return 0;
+    public long getItemId(int position) {
+        mCursor.moveToPosition(position);
+        return mCursor.getLong(PlaylistLoader.Query._ID);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        mCursor.moveToPosition(position);
+
         TextView title;
 
         if(convertView == null){
@@ -55,8 +56,7 @@ public class PlaylistAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
 
-        Playlist playlist = playlists.get(position);
-        title.setText(playlist.getTitle());
+        title.setText(mCursor.getString(PlaylistLoader.Query.TITLE));
 
         return convertView;
     }

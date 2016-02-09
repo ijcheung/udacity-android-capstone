@@ -1,14 +1,12 @@
 package com.karaokyo.android.app.player.fragment;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +17,8 @@ import android.widget.TextView;
 import com.karaokyo.android.app.player.R;
 import com.karaokyo.android.app.player.activity.MainActivity;
 import com.karaokyo.android.app.player.helper.SongAdapter;
+import com.karaokyo.android.app.player.helper.SongLoader;
 import com.karaokyo.android.app.player.model.Song;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * A fragment representing a list of Items.
@@ -32,12 +27,13 @@ import java.util.Comparator;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class LibraryFragment extends ListFragment {
+public class LibraryFragment extends ListFragment implements
+        LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "LibraryFragment";
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    private ArrayList<Song> songs;
+    private Cursor mCursor;
 
     private OnFragmentInteractionListener mListener;
 
@@ -61,10 +57,7 @@ public class LibraryFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        songs = getSongList();
-
-        mAdapter = new SongAdapter(getActivity(), songs);
-        setListAdapter(mAdapter);
+        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -104,10 +97,14 @@ public class LibraryFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mListener.onLibraryFragmentInteraction(songs.get(i));
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                mCursor.moveToPosition(position);
+                Song song = new Song(mCursor.getString(SongLoader.Query.TITLE),
+                        mCursor.getString(SongLoader.Query.ARTIST),
+                        mCursor.getLong(SongLoader.Query._ID));
+                mListener.onLibraryFragmentInteraction(song);
                 return true;
             }
         });
@@ -118,8 +115,29 @@ public class LibraryFragment extends ListFragment {
         super.onListItemClick(l, v, position, id);
 
         if (null != mListener) {
-            mListener.onLibraryFragmentInteraction(songs.get(position));
+            mCursor.moveToPosition(position);
+            Song song = new Song(mCursor.getString(SongLoader.Query.TITLE),
+                    mCursor.getString(SongLoader.Query.ARTIST),
+                    mCursor.getLong(SongLoader.Query._ID));
+            mListener.onLibraryFragmentInteraction(song);
         }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new SongLoader(getContext());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        mCursor = cursor;
+        mAdapter = new SongAdapter(getContext(), cursor, SongAdapter.Type.LIBRARY);
+        setListAdapter(mAdapter);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        setListAdapter(null);
     }
 
     /**
@@ -134,54 +152,5 @@ public class LibraryFragment extends ListFragment {
     */
     public interface OnFragmentInteractionListener {
         public void onLibraryFragmentInteraction(Song song);
-    }
-
-    public void deleteSong(Song song){
-        songs.remove(song);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    private ArrayList<Song> getSongList() {
-        ArrayList<Song> songs = new ArrayList<Song>();
-        ContentResolver musicResolver = getActivity().getContentResolver();
-        Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor musicCursor = musicResolver.query(musicUri, null, MediaStore.Audio.Media.IS_MUSIC + "=1", null, null);
-        if(musicCursor != null && musicCursor.moveToFirst()){
-            //get columns
-            int titleColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media.TITLE);
-            int idColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media._ID);
-            int artistColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media.ARTIST);
-            int albumColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.ALBUM);
-            int durationColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.DURATION);
-            //add songs to list
-            do {
-                long id = musicCursor.getLong(idColumn);
-                String title = musicCursor.getString(titleColumn);
-                String artist = musicCursor.getString(artistColumn);
-                String album = musicCursor.getString(albumColumn);
-                long duration = musicCursor.getLong(durationColumn);
-                songs.add(new Song(title, artist, id));
-                Log.i(TAG, title);
-                Log.i(TAG, artist);
-                Log.i(TAG, album);
-                Log.i(TAG, Long.toString(duration));
-                Log.i(TAG, Long.toString(id));
-            }
-            while(musicCursor.moveToNext());
-            musicCursor.close();
-        }
-
-        Collections.sort(songs, new Comparator<Song>() {
-            public int compare(Song a, Song b) {
-                return a.getTitle().compareTo(b.getTitle());
-            }
-        });
-
-        return songs;
     }
 }

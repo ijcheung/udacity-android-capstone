@@ -103,6 +103,10 @@
         <provider
             android:name=".provider.LyricContentProvider"
             android:authorities="com.karaokyo.android.app.player.provider.lyrics" />
+        <provider
+            android:name=".provider.PlaylistContentProvider"
+            android:authorities="com.karaokyo.android.app.player.provider.playlists"
+            android:exported="false" />
     </application>
 
 </manifest>

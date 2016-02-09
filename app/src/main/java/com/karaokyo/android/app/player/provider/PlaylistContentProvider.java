@@ -9,31 +9,31 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-public class LyricContentProvider extends ContentProvider {
-    private static UriMatcher mUriMatcher = LyricContract.buildUriMatcher();
+public class PlaylistContentProvider extends ContentProvider {
+    private static UriMatcher mUriMatcher = PlaylistContract.buildUriMatcher();
 
-    private LyricDatabaseHelper mDbHelper;
+    private PlaylistDatabaseHelper mDbHelper;
 
     @Override
     public boolean onCreate() {
-        mDbHelper = new LyricDatabaseHelper(getContext());
+        mDbHelper = new PlaylistDatabaseHelper(getContext());
         return (mDbHelper != null);
     }
 
     @Override
-    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs,
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-        builder.setTables(LyricContract.LYRICS_TABLE_NAME);
+        builder.setTables(PlaylistContract.PLAYLISTS_TABLE_NAME);
 
         Cursor cursor;
 
         switch (mUriMatcher.match(uri)) {
-            case LyricContract.GET_ALL:
+            case PlaylistContract.GET_ALL:
                 cursor = builder.query(mDbHelper.getWritableDatabase(), projection, selection,
                         selectionArgs, null, null, sortOrder);
                 break;
-            case LyricContract.GET_ONE:
+            case PlaylistContract.GET_ONE:
                 cursor = builder.query(mDbHelper.getWritableDatabase(), projection, selection,
                         selectionArgs, null, null, sortOrder);
                 break;
@@ -49,8 +49,8 @@ public class LyricContentProvider extends ContentProvider {
     @Override
     public String getType(@NonNull Uri uri) {
         switch (mUriMatcher.match(uri)) {
-            case LyricContract.GET_ALL:
-                return LyricContract.LYRICS_MIME_TYPE;
+            case PlaylistContract.GET_ALL:
+                return PlaylistContract.PLAYLISTS_MIME_TYPE;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
@@ -62,7 +62,7 @@ public class LyricContentProvider extends ContentProvider {
         long id = 0;
         switch (mUriMatcher.match(uri)) {
             case LyricContract.GET_ALL:
-                id = db.insert(LyricContract.LYRICS_TABLE_NAME, null, contentValues);
+                id = db.insert(PlaylistContract.PLAYLISTS_TABLE_NAME, null, contentValues);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -75,16 +75,16 @@ public class LyricContentProvider extends ContentProvider {
     public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         switch (mUriMatcher.match(uri)) {
-            case LyricContract.GET_ALL:
+            case PlaylistContract.GET_ALL:
                 break;
-            case LyricContract.GET_ONE:
+            case PlaylistContract.GET_ONE:
                 where = where + "_id = " + uri.getLastPathSegment();
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
 
-        int count = db.delete(LyricContract.LYRICS_TABLE_NAME, where, whereArgs);
+        int count = db.delete(PlaylistContract.PLAYLISTS_TABLE_NAME, where, whereArgs);
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
     }
@@ -95,7 +95,7 @@ public class LyricContentProvider extends ContentProvider {
         int count;
         switch (mUriMatcher.match(uri)) {
             case LyricContract.GET_ALL:
-                count = db.update(LyricContract.LYRICS_TABLE_NAME, values, where, whereArgs);
+                count = db.update(PlaylistContract.PLAYLISTS_TABLE_NAME, values, where, whereArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);

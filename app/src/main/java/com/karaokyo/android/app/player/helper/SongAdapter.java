@@ -2,6 +2,7 @@ package com.karaokyo.android.app.player.helper;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,22 +17,34 @@ import com.karaokyo.android.app.player.model.Song;
 import java.util.ArrayList;
 
 public class SongAdapter extends BaseAdapter {
-    private ArrayList<Song> songs;
+    private ArrayList<Song> mSongs;
+    private Cursor mCursor;
     private LayoutInflater mLayoutInflater;
     private Resources mResources;
     private boolean mSortable;
     private int mSelected = -1;
+    private Type mType;
 
-    public SongAdapter(Context context, ArrayList<Song> songs){
-        this.songs = songs;
-        mLayoutInflater = LayoutInflater.from(context);
-        mResources = context.getResources();
+    public enum Type {
+        LIBRARY, LYRICS, PLAYLIST;
     }
 
-    public SongAdapter(Context context, ArrayList<Song> songs, boolean sortable){
-        this(context, songs);
+    // Used by LibraryFragment & LyricFragment
+    public SongAdapter(Context context, Cursor cursor, Type type){
+        mCursor = cursor;
+        mLayoutInflater = LayoutInflater.from(context);
+        mResources = context.getResources();
+        mType = type;
+    }
 
-        mSortable = sortable;
+    // Used by PlaylistFragment
+    public SongAdapter(Context context, ArrayList<Song> songs){
+        mSongs = songs;
+        mLayoutInflater = LayoutInflater.from(context);
+        mResources = context.getResources();
+
+        mSortable = true;
+        mType = Type.PLAYLIST;
     }
 
     public int getActiveSong(){
@@ -44,17 +57,28 @@ public class SongAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return songs.size();
+        return mCursor == null ? mSongs.size() : mCursor.getCount();
     }
 
     @Override
     public Object getItem(int index) {
-        return songs.get(index);
+        if(mCursor == null) {
+            return mSongs.get(index);
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
     public long getItemId(int index) {
-        return songs.get(index).getSongId();
+        if(mCursor == null) {
+            return mSongs.get(index).getSongId();
+        }
+        else {
+            mCursor.moveToPosition(index);
+            return mCursor.getLong(0);
+        }
     }
 
     @Override
@@ -92,10 +116,23 @@ public class SongAdapter extends BaseAdapter {
             convertView.setBackgroundColor(Color.TRANSPARENT);
         }
 
-        Song currSong = songs.get(position);
-
-        title.setText(currSong.getTitle());
-        artist.setText(currSong.getArtist());
+        switch(mType){
+            case LIBRARY:
+                mCursor.moveToPosition(position);
+                title.setText(mCursor.getString(SongLoader.Query.TITLE));
+                artist.setText(mCursor.getString(SongLoader.Query.ARTIST));
+                break;
+            case LYRICS:
+                mCursor.moveToPosition(position);
+                title.setText(mCursor.getString(LyricLoader.Query.TITLE));
+                artist.setText(mCursor.getString(LyricLoader.Query.ARTIST));
+                break;
+            case PLAYLIST:
+                Song current = mSongs.get(position);
+                title.setText(current.getTitle());
+                artist.setText(current.getArtist());
+                break;
+        }
 
         return convertView;
     }

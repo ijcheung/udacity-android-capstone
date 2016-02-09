@@ -1,11 +1,15 @@
 package com.karaokyo.android.app.player.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -19,17 +23,16 @@ import android.widget.TextView;
 import com.karaokyo.android.app.player.R;
 import com.karaokyo.android.app.player.activity.MainActivity;
 import com.karaokyo.android.app.player.helper.PlaylistAdapter;
-import com.karaokyo.android.app.player.helper.PlaylistDataSource;
+import com.karaokyo.android.app.player.helper.PlaylistLoader;
 import com.karaokyo.android.app.player.model.Playlist;
 import com.karaokyo.android.app.player.model.Song;
+import com.karaokyo.android.app.player.provider.PlaylistContract;
 import com.karaokyo.android.app.player.util.Utilities;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * A fragment representing a list of Items.
@@ -38,17 +41,16 @@ import java.util.Comparator;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class PlaylistsFragment extends ListFragment {
+public class PlaylistsFragment extends ListFragment implements
+        LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "PlaylistsFragment";
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    private ArrayList<Playlist> playlists;
-
     private OnFragmentInteractionListener mListener;
 
+    private Cursor mCursor;
     private PlaylistAdapter mAdapter;
-    private PlaylistDataSource dataSource;
 
     public static PlaylistsFragment newInstance() {
         return new PlaylistsFragment();
@@ -68,21 +70,7 @@ public class PlaylistsFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        dataSource = new PlaylistDataSource(getActivity());
-        dataSource.open();
-
-        playlists = dataSource.getAllPlaylists();
-        Collections.sort(playlists, new Comparator<Playlist>() {
-            public int compare(Playlist a, Playlist b) {
-                return a.getTitle().compareTo(b.getTitle());
-            }
-        });
-
-        dataSource.close();
-
-        mAdapter = new PlaylistAdapter(getActivity(), playlists);
-
-        setListAdapter(mAdapter);
+        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -110,7 +98,7 @@ public class PlaylistsFragment extends ListFragment {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String filename = input.getText().toString();
 
-                                if(!TextUtils.isEmpty(filename)) {
+                                if (!TextUtils.isEmpty(filename)) {
                                     File newFile = new File(getContext().getFilesDir(), filename);
                                     if (newFile.exists()) {
                                         Utilities.showError(getActivity(), R.string.error_playlist_name_exists);
@@ -122,17 +110,16 @@ public class PlaylistsFragment extends ListFragment {
                                             out.close();
 
                                             //Add to DB
-                                            dataSource.open();
-                                            playlists.add(dataSource.createPlaylist(filename));
-                                            dataSource.close();
+                                            ContentValues values = new ContentValues();
+                                            values.put(PlaylistContract.TITLE, filename);
+                                            getContext().getContentResolver().insert(PlaylistContract.CONTENT_URI, values);
 
                                             notifyDataSetChanged();
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
                                     }
-                                }
-                                else{
+                                } else {
                                     Utilities.showError(getActivity(), R.string.error_playlist_name_empty);
                                 }
                             }
@@ -147,34 +134,17 @@ public class PlaylistsFragment extends ListFragment {
         return root;
     }
 
-    /*@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.playlists, menu);
-    }
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.action_new:
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-        if(activity instanceof MainActivity) {
-            ((MainActivity) activity).onSectionAttached(
+        if(context instanceof MainActivity) {
+            ((MainActivity) context).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
@@ -190,8 +160,11 @@ public class PlaylistsFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mListener.onPlaylistsFragmentInteraction(playlists.get(i), true);
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                mCursor.moveToPosition(position);
+                Playlist playlist = new Playlist(mCursor.getLong(PlaylistLoader.Query._ID),
+                        mCursor.getString(PlaylistLoader.Query.TITLE));
+                mListener.onPlaylistsFragmentInteraction(playlist, true);
                 return true;
             }
         });
@@ -203,26 +176,32 @@ public class PlaylistsFragment extends ListFragment {
         super.onListItemClick(l, v, position, id);
 
         if (null != mListener) {
-            mListener.onPlaylistsFragmentInteraction(playlists.get(position), false);
+            mCursor.moveToPosition(position);
+            Playlist playlist = new Playlist(mCursor.getLong(PlaylistLoader.Query._ID),
+                    mCursor.getString(PlaylistLoader.Query.TITLE));
+            mListener.onPlaylistsFragmentInteraction(playlist, false);
         }
     }
 
-    public void deletePlaylist(Playlist playlist){
-        playlists.remove(playlist);
-        mAdapter.notifyDataSetChanged();
-    }
-
     public void notifyDataSetChanged(){
-        sortList();
         mAdapter.notifyDataSetChanged();
     }
 
-    private void sortList(){
-        Collections.sort(playlists, new Comparator<Playlist>() {
-            public int compare(Playlist a, Playlist b) {
-                return a.getTitle().compareTo(b.getTitle());
-            }
-        });
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new PlaylistLoader(getContext());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        mCursor = cursor;
+        mAdapter = new PlaylistAdapter(getContext(), cursor);
+        setListAdapter(mAdapter);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        setListAdapter(null);
     }
 
     /**

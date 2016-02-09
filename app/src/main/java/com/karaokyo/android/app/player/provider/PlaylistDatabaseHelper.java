@@ -1,4 +1,4 @@
-package com.karaokyo.android.app.player.helper;
+package com.karaokyo.android.app.player.provider;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

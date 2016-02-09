@@ -103,7 +103,7 @@ public class PlaylistFragment extends Fragment implements
             LyricService.LyricBinder binder = (LyricService.LyricBinder)service;
             lyricService = binder.getService();
             songs = lyricService.getSongs();
-            mSongAdapter = new SongAdapter(getActivity(), songs, true);
+            mSongAdapter = new SongAdapter(getContext(), songs);
             playlist.setAdapter(mSongAdapter);
             mBound = true;
             Log.i(TAG, "Service Bound");
