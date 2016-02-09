@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.karaokyo.android.app.player.R;
 import com.karaokyo.android.app.player.fragment.PlaylistsFragment;
 import com.karaokyo.android.app.player.model.Playlist;
@@ -58,6 +59,9 @@ public class PlaylistPickerActivity extends SelfClosingActivity implements
     protected void onResume() {
         super.onResume();
         bindService(new Intent(this, LyricService.class), mLyricConnection, Context.BIND_AUTO_CREATE);
+
+        getTracker().setScreenName("Playlist Picker");
+        getTracker().send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

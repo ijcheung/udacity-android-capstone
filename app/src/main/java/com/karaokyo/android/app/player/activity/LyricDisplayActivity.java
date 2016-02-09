@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.karaokyo.android.app.player.R;
 import com.karaokyo.android.app.player.model.Lyric;
 import com.karaokyo.android.app.player.task.LyricDownloadTaskFragment;
@@ -72,6 +73,14 @@ public class LyricDisplayActivity extends SelfClosingActivity implements
         rating.setRating((float) lyric.getRating());
         description.setText(bypass.markdownToSpannable(lyric.getDescription()));
         description.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getTracker().setScreenName("Lyric Display");
+        getTracker().send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

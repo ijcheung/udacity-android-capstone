@@ -4,8 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.android.gms.analytics.Tracker;
+import com.karaokyo.android.app.player.AnalyticsApplication;
 import com.karaokyo.android.app.player.util.Constants;
 
 public class SelfClosingActivity extends AppCompatActivity {
@@ -20,6 +23,16 @@ public class SelfClosingActivity extends AppCompatActivity {
         }
     };
 
+    private Tracker mTracker;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -30,5 +43,9 @@ public class SelfClosingActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(closeBroadcastReceiver);
+    }
+
+    public Tracker getTracker() {
+        return mTracker;
     }
 }

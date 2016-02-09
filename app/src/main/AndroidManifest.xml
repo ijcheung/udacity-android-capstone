@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".AnalyticsApplication"
         android:allowBackup="true"
         android:supportsRtl="true"
         android:icon="@drawable/ic_launcher"

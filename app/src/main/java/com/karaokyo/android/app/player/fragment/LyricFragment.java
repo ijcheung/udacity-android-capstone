@@ -131,7 +131,7 @@ public class LyricFragment extends ListFragment {
         mList = (ListView) root.findViewById(android.R.id.list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipe_refresh_layout);
 
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.notification_area);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.accent);
         mSwipeRefreshLayout.setRefreshing(mIsRefreshing);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

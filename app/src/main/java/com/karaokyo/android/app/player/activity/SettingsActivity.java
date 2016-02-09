@@ -2,6 +2,7 @@ package com.karaokyo.android.app.player.activity;
 
 import android.os.Bundle;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.karaokyo.android.app.player.R;
 import com.karaokyo.android.app.player.fragment.settings.SettingsFragment;
 
@@ -16,5 +17,13 @@ public class SettingsActivity extends SelfClosingActivity {
                 .beginTransaction()
                 .replace(R.id.content, new SettingsFragment())
                 .commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getTracker().setScreenName("Settings");
+        getTracker().send(new HitBuilders.ScreenViewBuilder().build());
     }
 }

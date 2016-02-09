@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.karaokyo.android.app.player.R;
 import com.karaokyo.android.app.player.fragment.LibraryFragment;
 import com.karaokyo.android.app.player.fragment.LyricFragment;
@@ -168,15 +169,23 @@ public class MainActivity extends SelfClosingActivity implements
         switch (position) {
             case 0:
                 mTitle = R.string.library;
+                getTracker().setScreenName("Library");
+                getTracker().send(new HitBuilders.ScreenViewBuilder().build());
                 break;
             case 1:
                 mTitle = R.string.lyrics;
+                getTracker().setScreenName("Lyric");
+                getTracker().send(new HitBuilders.ScreenViewBuilder().build());
                 break;
             case 2:
                 mTitle = R.string.playlists;
+                getTracker().setScreenName("Playlists");
+                getTracker().send(new HitBuilders.ScreenViewBuilder().build());
                 break;
             case 3:
                 mTitle = R.string.now_playing;
+                getTracker().setScreenName("Now Playing");
+                getTracker().send(new HitBuilders.ScreenViewBuilder().build());
                 break;
             default:
                 mTitle = R.string.app_name;

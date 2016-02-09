@@ -3,6 +3,7 @@ package com.karaokyo.android.app.player.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.karaokyo.android.app.player.R;
 import com.karaokyo.android.app.player.fragment.LibraryFragment;
 import com.karaokyo.android.app.player.model.Song;
@@ -20,6 +21,14 @@ public class AudioPickerActivity extends SelfClosingActivity implements
                     .add(R.id.container, LibraryFragment.newInstance())
                     .commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getTracker().setScreenName("Audio Picker");
+        getTracker().send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

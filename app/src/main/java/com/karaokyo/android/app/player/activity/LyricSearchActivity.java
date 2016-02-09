@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.karaokyo.android.app.player.R;
 import com.karaokyo.android.app.player.helper.LyricAdapter;
 import com.karaokyo.android.app.player.model.Lyric;
@@ -118,6 +119,14 @@ public class LyricSearchActivity extends SelfClosingActivity implements
                 Utilities.showError(this, R.string.error_no_connection);
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getTracker().setScreenName("Lyric Search");
+        getTracker().send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
