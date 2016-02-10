@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.analytics.Tracker;
@@ -23,16 +22,6 @@ public class SelfClosingActivity extends AppCompatActivity {
         }
     };
 
-    private Tracker mTracker;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        mTracker = application.getDefaultTracker();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -46,6 +35,7 @@ public class SelfClosingActivity extends AppCompatActivity {
     }
 
     public Tracker getTracker() {
-        return mTracker;
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        return application.getDefaultTracker();
     }
 }

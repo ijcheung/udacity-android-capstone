@@ -110,17 +110,17 @@ public class MainActivity extends SelfClosingActivity implements
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTwoPane = mNavigationDrawerFragment != null;
+        mTwoPane = mNavigationDrawerFragment == null;
 
         if(mTwoPane) {
+            mNavigationDrawerFragment = (NavigationDrawerFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.navigation_pane);
+        }
+        else {
             // Set up the drawer.
             mNavigationDrawerFragment.setUp(
                     R.id.navigation_drawer,
                     (DrawerLayout) findViewById(R.id.drawer_layout));
-        }
-        else {
-            mNavigationDrawerFragment = (NavigationDrawerFragment)
-                    getSupportFragmentManager().findFragmentById(R.id.navigation_pane);
         }
 
         playIntent = new Intent(this, LyricService.class);
@@ -193,6 +193,9 @@ public class MainActivity extends SelfClosingActivity implements
                 break;
             default:
                 mTitle = R.string.app_name;
+        }
+        if(mTwoPane){
+            mTitle = R.string.app_name;
         }
     }
 
