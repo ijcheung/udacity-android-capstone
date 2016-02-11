@@ -54,6 +54,7 @@
     <!-- Now Playing -->
     <string name="back">Trở Lại</string>
     <string name="forward">Chuyển</string>
+    <string name="pause">Tạm Ngưng</string>
 
     <!-- Empty -->
     <string name="empty_library">Không tìm thấy bài hát</string>

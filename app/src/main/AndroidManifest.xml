@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.karaokyo.android.app.player" >
+    package="com.karaokyo.android.app.player">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -12,22 +12,25 @@
     <application
         android:name=".AnalyticsApplication"
         android:allowBackup="true"
-        android:supportsRtl="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="http" />
                 <data android:scheme="https" />
                 <data android:scheme="file" />
@@ -39,7 +42,7 @@
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".activity.MainActivity" >
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.karaokyo.android.app.player.activity.MainActivity" />
@@ -47,7 +50,7 @@
         <activity
             android:name=".activity.AudioPickerActivity"
             android:label="@string/title_activity_audio_picker"
-            android:parentActivityName=".activity.MainActivity" >
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.karaokyo.android.app.player.activity.MainActivity" />
@@ -55,7 +58,7 @@
         <activity
             android:name=".activity.PlaylistPickerActivity"
             android:label="@string/title_activity_playlist_picker"
-            android:parentActivityName=".activity.MainActivity" >
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.karaokyo.android.app.player.activity.MainActivity" />
@@ -63,7 +66,7 @@
         <activity
             android:name=".activity.LyricSearchActivity"
             android:label="@string/title_activity_lyric_search"
-            android:parentActivityName=".activity.MainActivity" >
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.karaokyo.android.app.player.activity.MainActivity" />
@@ -71,7 +74,7 @@
         <activity
             android:name=".activity.LyricDisplayActivity"
             android:label="@string/title_activity_lyric_display"
-            android:parentActivityName=".activity.LyricSearchActivity" >
+            android:parentActivityName=".activity.LyricSearchActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.karaokyo.android.app.player.activity.LyricSearchActivity" />
@@ -79,7 +82,7 @@
         <activity
             android:name=".activity.OpenSourceActivity"
             android:label="@string/title_activity_open_source"
-            android:parentActivityName=".activity.SettingsActivity" >
+            android:parentActivityName=".activity.SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.karaokyo.android.app.player.activity.SettingsActivity" />
@@ -91,12 +94,13 @@
 
         <service android:name=".service.LyricService" />
 
-        <receiver android:name=".helper.MusicIntentReceiver" >
+        <receiver android:name=".helper.MusicIntentReceiver">
             <intent-filter>
                 <action android:name="android.media.AUDIO_BECOMING_NOISY" />
-            </intent-filter>
-            <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <action android:name="com.karaokyo.android.app.player.ACTION_BACK" />
+                <action android:name="com.karaokyo.android.app.player.ACTION_FORWARD" />
+                <action android:name="com.karaokyo.android.app.player.ACTION_TOGGLE_PLAYBACK" />
             </intent-filter>
         </receiver>
 
@@ -107,6 +111,16 @@
             android:name=".provider.PlaylistContentProvider"
             android:authorities="com.karaokyo.android.app.player.provider.playlists"
             android:exported="false" />
+
+        <receiver android:name=".widget.ControlWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/control_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

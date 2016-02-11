@@ -12,6 +12,7 @@ public class Constants {
     public static final String ACTION_STOP = "com.karaokyo.android.app.player.ACTION_STOP";
     public static final String ACTION_FORWARD = "com.karaokyo.android.app.player.ACTION_FORWARD";
     public static final String ACTION_CLOSE = "com.karaokyo.android.app.player.ACTION_CLOSE";
+    public static final String ACTION_WIDGET_UPDATE_REQUEST = "com.karaokyo.android.app.player.ACTION_WIDGET_UPDATE_REQUEST";
 
     public static final String KEY_PAGINATION = "X-Pagination";
     public static final String KEY_FIRST_PAGE = "first_page";

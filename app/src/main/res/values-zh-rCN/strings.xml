@@ -54,6 +54,7 @@
     <!-- Now Playing -->
     <string name="back">回</string>
     <string name="forward">前</string>
+    <string name="pause">暂停</string>
 
     <!-- Empty -->
     <string name="empty_library">没找到歌曲</string>

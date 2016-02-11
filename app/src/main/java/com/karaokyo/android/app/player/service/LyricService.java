@@ -2,6 +2,7 @@ package com.karaokyo.android.app.player.service;
 
 import android.app.PendingIntent;
 import android.app.Service;
+import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentUris;
@@ -49,6 +50,7 @@ import com.karaokyo.android.app.player.task.LyricLayoutTask;
 import com.karaokyo.android.app.player.util.Constants;
 import com.karaokyo.android.app.player.util.Utilities;
 import com.karaokyo.android.app.player.view.LineView;
+import com.karaokyo.android.app.player.widget.ControlWidget;
 import com.karaokyo.android.lib.widget.StrokedTextView;
 
 import org.jdom2.Document;
@@ -84,13 +86,16 @@ public class LyricService extends Service implements
     private RemoteViews mRemoteViews;
     private Bitmap mDummyAlbumArt;
 
+    private String mTitle;
+    private String mArtist;
+
     private List<LineView> mLines;
     private int mStartingIndex = 0;
     private boolean mJump;
 
     private View mOverlay;
-    private StrokedTextView mTitle;
-    private StrokedTextView mArtist;
+    private StrokedTextView mTitleView;
+    private StrokedTextView mArtistView;
     private LinearLayout mLyrics;
     private LyricLayoutTask mLyricLayoutTask;
 
@@ -358,18 +363,18 @@ public class LyricService extends Service implements
                 PixelFormat.TRANSLUCENT);
 
         mOverlay = LayoutInflater.from(this).inflate(R.layout.overlay, null);
-        mTitle = (StrokedTextView) mOverlay.findViewById(R.id.title);
-        mArtist = (StrokedTextView) mOverlay.findViewById(R.id.artist);
+        mTitleView = (StrokedTextView) mOverlay.findViewById(R.id.title);
+        mArtistView = (StrokedTextView) mOverlay.findViewById(R.id.artist);
         mLyrics = (LinearLayout) mOverlay.findViewById(R.id.lyrics);
 
-        mTitle.setTextSize((int) (mTextSize * 1.3));
-        mTitle.setTextColor(mTextColor);
-        mTitle.setStrokeColor(mStrokeColor);
-        mTitle.setStrokeWidth((int) (mStrokeWidth * 1.3));
-        mArtist.setTextSize((int) (mTextSize * 1.2));
-        mArtist.setTextColor(mTextColor);
-        mArtist.setStrokeColor(mStrokeColor);
-        mArtist.setStrokeWidth((int) (mStrokeWidth * 1.3));
+        mTitleView.setTextSize((int) (mTextSize * 1.3));
+        mTitleView.setTextColor(mTextColor);
+        mTitleView.setStrokeColor(mStrokeColor);
+        mTitleView.setStrokeWidth((int) (mStrokeWidth * 1.3));
+        mArtistView.setTextSize((int) (mTextSize * 1.2));
+        mArtistView.setTextColor(mTextColor);
+        mArtistView.setStrokeColor(mStrokeColor);
+        mArtistView.setStrokeWidth((int) (mStrokeWidth * 1.3));
 
         mWindowManager.addView(mOverlay, params);
 
@@ -447,6 +452,9 @@ public class LyricService extends Service implements
                         mHandler.removeCallbacks(mUpdateTimeTask);
                         stopSelf();
                         break;
+                    case Constants.ACTION_WIDGET_UPDATE_REQUEST:
+                        updateControlWidget(intent);
+                        break;
                 }
             }
         };
@@ -458,6 +466,7 @@ public class LyricService extends Service implements
         filter.addAction(Constants.ACTION_PAUSE);
         filter.addAction(Constants.ACTION_FORWARD);
         filter.addAction(Constants.ACTION_CLOSE);
+        filter.addAction(Constants.ACTION_WIDGET_UPDATE_REQUEST);
 
         registerReceiver(mReceiver, filter);
 
@@ -484,15 +493,10 @@ public class LyricService extends Service implements
         }
 
         Log.i(TAG, "onStartCommand: " + action);
-        /*if(action == null){
-
-        }
+        if(action == null);
         else if (action.equals(Constants.ACTION_TOGGLE_PLAYBACK)) doPlayback();
-        else if (action.equals(Constants.ACTION_PLAY)) doPlay();
-        else if (action.equals(Constants.ACTION_PAUSE)) doPause();
         else if (action.equals(Constants.ACTION_FORWARD)) doForward();
-        else if (action.equals(Constants.ACTION_STOP)) doStop();
-        else if (action.equals(Constants.ACTION_BACK)) doBack();*/
+        else if (action.equals(Constants.ACTION_BACK)) doBack();
 
         return START_NOT_STICKY;
     }
@@ -546,7 +550,10 @@ public class LyricService extends Service implements
     public void onPrepared(MediaPlayer mediaPlayer) {
         Log.i(TAG, "onPrepared");
         mSongLoaded = true;
-        updateNotification(songs.get(index).getTitle(), songs.get(index).getArtist());
+        Song song = songs.get(index);
+        mTitle = song.getTitle();
+        mArtist = song.getArtist();
+        updateNotification(mTitle, mArtist);
         if(mStartPlayingAfterRetrieve) {
             configAndStartMediaPlayer();
         }
@@ -567,8 +574,8 @@ public class LyricService extends Service implements
             //mOverlay.loadUrl("javascript:setTextSize(" + sharedPreferences.getInt(getString(R.string.pref_key_text_size), Constants.DEFAULT_TEXT_SIZE) + ")");
             mTextSize = sharedPreferences.getInt(getString(R.string.pref_key_text_size), Constants.DEFAULT_TEXT_SIZE);
             mStrokeWidth = calculateStrokeWidth();
-            mTitle.setTextSize((int) (mTextSize * 1.3));
-            mArtist.setTextSize((int) (mTextSize * 1.2));
+            mTitleView.setTextSize((int) (mTextSize * 1.3));
+            mArtistView.setTextSize((int) (mTextSize * 1.2));
 
             if(mHasLyrics) {
                 clearOverlay();
@@ -577,8 +584,8 @@ public class LyricService extends Service implements
         }
         else if(key.equals(getString(R.string.pref_key_text_color))) {
             mTextColor = mSharedPref.getInt(getString(R.string.pref_key_text_color), Constants.DEFAULT_TEXT_COLOR);
-            mTitle.setTextColor(mTextColor);
-            mArtist.setTextColor(mTextColor);
+            mTitleView.setTextColor(mTextColor);
+            mArtistView.setTextColor(mTextColor);
             for(int i = 0; i < mLyrics.getChildCount(); i++) {
                 LineView line = (LineView) mLyrics.getChildAt(i);
                 line.setTextColor(mTextColor);
@@ -587,8 +594,8 @@ public class LyricService extends Service implements
         else if(key.equals(getString(R.string.pref_key_text_stroke_color))) {
             //mOverlay.loadUrl("javascript:setStrokeColor(\"" + Utilities.intToColorCode(sharedPreferences.getInt(key, Constants.DEFAULT_STROKE_COLOR)) + "\")");
             mStrokeColor = mSharedPref.getInt(getString(R.string.pref_key_text_stroke_color), Constants.DEFAULT_STROKE_COLOR);
-            mTitle.setStrokeColor(mStrokeColor);
-            mArtist.setStrokeColor(mStrokeColor);
+            mTitleView.setStrokeColor(mStrokeColor);
+            mArtistView.setStrokeColor(mStrokeColor);
             for(int i = 0; i < mLyrics.getChildCount(); i++) {
                 LineView line = (LineView) mLyrics.getChildAt(i);
                 line.setStrokeColor(mStrokeColor);
@@ -844,6 +851,9 @@ public class LyricService extends Service implements
                 this.index--;
             }
         }
+        if(songs.size() == 0){
+            clearNotification();
+        }
         savePlaylist();
     }
 
@@ -1044,15 +1054,16 @@ public class LyricService extends Service implements
         playSong();
     }
 
-    private void updateNotification(String songTitle, String songArtist) {
-        mRemoteViews.setTextViewText(R.id.title, songTitle);
-        mRemoteViews.setTextViewText(R.id.artist, songArtist);
+    private void updateNotification(String title, String artist) {
+        mRemoteViews.setTextViewText(R.id.title, title);
+        mRemoteViews.setTextViewText(R.id.artist, artist);
         mRemoteViews.setImageViewResource(R.id.play, R.drawable.ic_pause);
-        mBuilder.setTicker(songArtist + " - " + songTitle);
+        mBuilder.setTicker(artist + " - " + title);
         startForeground(NOTIFY_ID, mBuilder.build());
+        updateWidget();
     }
 
-    private void updateNotification(){
+    private void updateNotification() {
         if(mState == State.Playing) {
             mRemoteViews.setImageViewResource(R.id.play, R.drawable.ic_pause);
         }
@@ -1060,6 +1071,26 @@ public class LyricService extends Service implements
             mRemoteViews.setImageViewResource(R.id.play, R.drawable.ic_play);
         }
         startForeground(NOTIFY_ID, mBuilder.build());
+        updateWidget();
+    }
+
+    private void clearNotification() {
+        mTitle = "";
+        mArtist = "";
+        mRemoteViews.setTextViewText(R.id.title, mTitle);
+        mRemoteViews.setTextViewText(R.id.artist, mArtist);
+        mRemoteViews.setImageViewResource(R.id.play, R.drawable.ic_play);
+        startForeground(NOTIFY_ID, mBuilder.build());
+        updateWidget();
+    }
+
+    private void updateWidget() {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
+                new ComponentName(getApplicationContext(), ControlWidget.class));
+        for(int appWidgetId : appWidgetIds) {
+            appWidgetManager.updateAppWidget(appWidgetId, generateControlWidgetView(mTitle, mArtist, appWidgetId));
+        }
     }
 
     /**
@@ -1134,12 +1165,12 @@ public class LyricService extends Service implements
         titleAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                mTitle.setVisibility(View.VISIBLE);
+                mTitleView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mTitle.startAnimation(titleStay);
+                mTitleView.startAnimation(titleStay);
             }
 
             @Override
@@ -1156,7 +1187,7 @@ public class LyricService extends Service implements
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mTitle.startAnimation(titleOut);
+                mTitleView.startAnimation(titleOut);
             }
 
             @Override
@@ -1173,7 +1204,7 @@ public class LyricService extends Service implements
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mTitle.setVisibility(View.INVISIBLE);
+                mTitleView.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -1185,12 +1216,12 @@ public class LyricService extends Service implements
         artistAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                mArtist.setVisibility(View.VISIBLE);
+                mArtistView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mArtist.startAnimation(artistIn);
+                mArtistView.startAnimation(artistIn);
             }
 
             @Override
@@ -1207,7 +1238,7 @@ public class LyricService extends Service implements
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mArtist.startAnimation(artistOut);
+                mArtistView.startAnimation(artistOut);
             }
 
             @Override
@@ -1224,7 +1255,7 @@ public class LyricService extends Service implements
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mArtist.setVisibility(View.INVISIBLE);
+                mArtistView.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -1250,8 +1281,8 @@ public class LyricService extends Service implements
         }
         stopTimeUpdate();
         clearAllAnimations();
-        mTitle.setText("");
-        mArtist.setText("");
+        mTitleView.setText("");
+        mArtistView.setText("");
         mLyrics.removeAllViews();
         mLines.clear();
         mHasLyrics = false;
@@ -1260,10 +1291,12 @@ public class LyricService extends Service implements
     private void parseLyrics(boolean showIntro) {
         Element root = mRoot.clone();
         if(showIntro) {
-            mTitle.setText(root.getChild("title").getText());
-            mArtist.setText(root.getChild("artist").getText());
-            mTitle.startAnimation(titleAnimation);
-            mArtist.startAnimation(artistAnimation);
+            mTitle = root.getChild("title").getText();
+            mArtist = root.getChild("artist").getText();
+            mTitleView.setText(mTitle);
+            mArtistView.setText(mArtist);
+            mTitleView.startAnimation(titleAnimation);
+            mArtistView.startAnimation(artistAnimation);
         }
 
         int screenWidth = mWindowManager.getDefaultDisplay().getWidth() - 12;
@@ -1283,5 +1316,33 @@ public class LyricService extends Service implements
 
     private int calculateStrokeWidth(){
         return (mTextSize - 50)/16 + 5;
+    }
+
+    private void updateControlWidget(Intent intent) {
+        int appWidgetId = intent.getExtras().getInt(
+                AppWidgetManager.EXTRA_APPWIDGET_ID);
+
+        AppWidgetManager appWidgetManager = AppWidgetManager
+                .getInstance(getApplicationContext());
+
+        appWidgetManager.updateAppWidget(appWidgetId, generateControlWidgetView(mTitle, mArtist, appWidgetId));
+    }
+
+    private RemoteViews generateControlWidgetView(CharSequence title, CharSequence artist, int appWidgetId) {
+        RemoteViews views = new RemoteViews(getApplicationContext()
+                .getPackageName(), R.layout.control_widget);
+
+        views.setTextViewText(R.id.title, title);
+        views.setTextViewText(R.id.artist, artist);
+        views.setImageViewResource(R.id.play, isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
+        views.setContentDescription(R.id.play, getString(isPlaying() ? R.string.pause : R.string.play));
+        views.setOnClickPendingIntent(R.id.back,
+                ControlWidget.generateLyricServicePendingIntent(getApplicationContext(), appWidgetId, Constants.ACTION_BACK));
+        views.setOnClickPendingIntent(R.id.play,
+                ControlWidget.generateLyricServicePendingIntent(getApplicationContext(), appWidgetId, Constants.ACTION_TOGGLE_PLAYBACK));
+        views.setOnClickPendingIntent(R.id.forward,
+                ControlWidget.generateLyricServicePendingIntent(getApplicationContext(), appWidgetId, Constants.ACTION_FORWARD));
+
+        return views;
     }
 }
