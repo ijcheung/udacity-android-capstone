@@ -44,10 +44,6 @@ public class Song implements Serializable {
     }
 
     public boolean equals(Song s){
-        if(title.equals(s.title) && artist.equals(s.artist) && songId == s.songId && lyric == s.lyric){
-            return true;
-        }
-
-        return false;
+        return title.equals(s.title) && artist.equals(s.artist) && songId == s.songId && lyric.equals(s.lyric);
     }
 }

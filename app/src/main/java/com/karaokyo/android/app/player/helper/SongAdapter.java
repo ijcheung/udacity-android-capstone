@@ -26,7 +26,7 @@ public class SongAdapter extends BaseAdapter {
     private Type mType;
 
     public enum Type {
-        LIBRARY, LYRICS, PLAYLIST;
+        LIBRARY, LYRICS, PLAYLIST
     }
 
     // Used by LibraryFragment & LyricFragment

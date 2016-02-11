@@ -11,133 +11,76 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/apache2"
+            android:drawableRight="@drawable/ic_external"
+            android:drawableEnd="@drawable/ic_external"
             android:tag="http://www.apache.org/licenses/LICENSE-2.0"
-            android:onClick="openUrl">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="@string/apache2" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_external"
-                android:contentDescription="@string/apache2"/>
-        </LinearLayout>
-        <LinearLayout
+            android:onClick="openUrl" />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/dslv"
+            android:drawableRight="@drawable/ic_external"
+            android:drawableEnd="@drawable/ic_external"
             android:tag="https://github.com/bauerca/drag-sort-listview"
-            android:onClick="openUrl">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dslv" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_external"
-                android:contentDescription="@string/dslv"/>
-        </LinearLayout>
-        <LinearLayout
+            android:onClick="openUrl" />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/xerces"
+            android:drawableRight="@drawable/ic_external"
+            android:drawableEnd="@drawable/ic_external"
             android:tag="https://code.google.com/p/xerces-for-android"
-            android:onClick="openUrl">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/xerces" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_external"
-                android:contentDescription="@string/xerces" />
-        </LinearLayout>
-        <LinearLayout
+            android:onClick="openUrl" />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/color_picker"
+            android:drawableRight="@drawable/ic_external"
+            android:drawableEnd="@drawable/ic_external"
             android:tag="https://github.com/yukuku/ambilwarna"
-            android:onClick="openUrl">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/color_picker" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_external"
-                android:contentDescription="@string/color_picker"/>
-        </LinearLayout>
-        <LinearLayout
+            android:onClick="openUrl" />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="https://github.com/commonsguy/cwac-anddown"
-            android:onClick="openUrl">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/anddown" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_external"
-                android:text="@string/anddown" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="@string/mit" />
-        </LinearLayout>
-        <LinearLayout
+            android:text="@string/bypass"
+            android:drawableRight="@drawable/ic_external"
+            android:drawableEnd="@drawable/ic_external"
+            android:tag="https://github.com/Uncodin/bypass"
+            android:onClick="openUrl" />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/mit" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/flag_icons"
+            android:drawableRight="@drawable/ic_external"
+            android:drawableEnd="@drawable/ic_external"
             android:tag="https://www.gosquared.com/resources/flag-icons/"
-            android:onClick="openUrl">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/flag_icons" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_external" />
-        </LinearLayout>
-        <LinearLayout
+            android:onClick="openUrl" />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/jdom_lic"
+            android:drawableRight="@drawable/ic_external"
+            android:drawableEnd="@drawable/ic_external"
             android:tag="https://github.com/hunterhacker/jdom/blob/master/LICENSE.txt"
-            android:onClick="openUrl">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="@string/jdom_lic" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_external" />
-        </LinearLayout>
-        <LinearLayout
+            android:onClick="openUrl"/>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/jdom"
+            android:drawableRight="@drawable/ic_external"
+            android:drawableEnd="@drawable/ic_external"
             android:tag="http://www.jdom.org"
-            android:onClick="openUrl">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/jdom" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_external" />
-        </LinearLayout>
+            android:onClick="openUrl"/>
     </LinearLayout>
 </ScrollView>

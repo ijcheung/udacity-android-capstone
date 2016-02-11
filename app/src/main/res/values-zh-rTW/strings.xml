@@ -7,7 +7,6 @@
     <string name="title_activity_lyric_display">查看歌词</string>
     <string name="title_activity_open_source">開源許可證</string>
     <string name="action_settings">設置</string>
-    <string name="action_refresh">刷新</string>
     <string name="action_new">新</string>
 
     <!--Drawer-->
@@ -86,5 +85,8 @@
     <string name="error_no_attached_audio">這歌詞文件沒有附加到它的音頻上</string>
 
     <!-- A11y -->
+    <string name="a11y_arrow">改成</string>
     <string name="a11y_flag">旗</string>
+    <string name="a11y_close">關</string>
+    <string name="a11y_drag">拉</string>
 </resources>

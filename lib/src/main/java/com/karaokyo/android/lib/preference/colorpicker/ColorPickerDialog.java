@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.support.v4.view.ViewCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,22 +22,21 @@ public class ColorPickerDialog {
 		void onOk(ColorPickerDialog dialog, int color);
 	}
 
-	final AlertDialog dialog;
+	private final AlertDialog dialog;
 	private final boolean supportsAlpha;
-	final OnColorPickedListener listener;
-	final View viewHue;
-	final ColorPickerSquare viewSatVal;
-	final ImageView viewCursor;
-	final ImageView viewAlphaCursor;
-	final View viewOldColor;
-	final View viewNewColor;
-	final View viewAlphaOverlay;
-	final ImageView viewTarget;
-	final ImageView viewAlphaCheckered;
-	final ViewGroup viewContainer;
-	final float[] currentColorHsv = new float[3];
-	int alpha;
-	boolean isRtl;
+	private final OnColorPickedListener listener;
+	private final View viewHue;
+	private final ColorPickerSquare viewSatVal;
+	private final ImageView viewCursor;
+	private final ImageView viewAlphaCursor;
+	private final View viewOldColor;
+	private final View viewNewColor;
+	private final View viewAlphaOverlay;
+	private final ImageView viewTarget;
+	private final ImageView viewAlphaCheckered;
+	private final ViewGroup viewContainer;
+	private final float[] currentColorHsv = new float[3];
+	private int alpha;
 
 	/**
 	 * Create an ColorPickerDialog.
@@ -72,7 +69,6 @@ public class ColorPickerDialog {
 		alpha = Color.alpha(color);
 
 		final View view = LayoutInflater.from(context).inflate(R.layout.colorpicker_dialog, null);
-		isRtl = ViewCompat.getLayoutDirection(view) == ViewCompat.LAYOUT_DIRECTION_RTL;
 		viewHue = view.findViewById(R.id.colorpicker_viewHue);
 		viewSatVal = (ColorPickerSquare) view.findViewById(R.id.colorpicker_viewSatBri);
 		viewCursor = (ImageView) view.findViewById(R.id.colorpicker_cursor);
@@ -224,13 +220,7 @@ public class ColorPickerDialog {
 		float y = viewHue.getMeasuredHeight() - (getHue() * viewHue.getMeasuredHeight() / 360.f);
 		if (y == viewHue.getMeasuredHeight()) y = 0.f;
 		RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) viewCursor.getLayoutParams();
-		Log.i("Ivan", isRtl + "");
-		if(isRtl) {
-			layoutParams.rightMargin = (int) (viewHue.getRight() - Math.floor(viewCursor.getMeasuredWidth() / 2) - viewContainer.getPaddingRight());
-		}
-		else {
-			layoutParams.leftMargin = (int) (viewHue.getLeft() - Math.floor(viewCursor.getMeasuredWidth() / 2) - viewContainer.getPaddingLeft());
-		}
+		layoutParams.leftMargin = (int) (viewHue.getLeft() - Math.floor(viewCursor.getMeasuredWidth() / 2) - viewContainer.getPaddingLeft());
 		layoutParams.topMargin = (int) (viewHue.getTop() + y - Math.floor(viewCursor.getMeasuredHeight() / 2) - viewContainer.getPaddingTop());
 		viewCursor.setLayoutParams(layoutParams);
 	}
@@ -239,12 +229,7 @@ public class ColorPickerDialog {
 		float x = getSat() * viewSatVal.getMeasuredWidth();
 		float y = (1.f - getVal()) * viewSatVal.getMeasuredHeight();
 		RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) viewTarget.getLayoutParams();
-		if(isRtl){
-			layoutParams.rightMargin = (int) (viewSatVal.getRight() + x - Math.floor(viewTarget.getMeasuredWidth() / 2) - viewContainer.getPaddingRight());
-		}
-		else {
-			layoutParams.leftMargin = (int) (viewSatVal.getLeft() + x - Math.floor(viewTarget.getMeasuredWidth() / 2) - viewContainer.getPaddingLeft());
-		}
+		layoutParams.leftMargin = (int) (viewSatVal.getLeft() + x - Math.floor(viewTarget.getMeasuredWidth() / 2) - viewContainer.getPaddingLeft());
 		layoutParams.topMargin = (int) (viewSatVal.getTop() + y - Math.floor(viewTarget.getMeasuredHeight() / 2) - viewContainer.getPaddingTop());
 		viewTarget.setLayoutParams(layoutParams);
 	}
@@ -253,12 +238,7 @@ public class ColorPickerDialog {
 		final int measuredHeight = this.viewAlphaCheckered.getMeasuredHeight();
 		float y = measuredHeight - ((this.getAlpha() * measuredHeight) / 255.f);
 		final RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) this.viewAlphaCursor.getLayoutParams();
-		if(isRtl){
-			layoutParams.rightMargin = (int) (this.viewAlphaCheckered.getRight() - Math.floor(this.viewAlphaCursor.getMeasuredWidth() / 2) - this.viewContainer.getPaddingRight());
-		}
-		else {
-			layoutParams.leftMargin = (int) (this.viewAlphaCheckered.getLeft() - Math.floor(this.viewAlphaCursor.getMeasuredWidth() / 2) - this.viewContainer.getPaddingLeft());
-		}
+		layoutParams.leftMargin = (int) (this.viewAlphaCheckered.getLeft() - Math.floor(this.viewAlphaCursor.getMeasuredWidth() / 2) - this.viewContainer.getPaddingLeft());
 		layoutParams.topMargin = (int) ((this.viewAlphaCheckered.getTop() + y) - Math.floor(this.viewAlphaCursor.getMeasuredHeight() / 2) - this.viewContainer.getPaddingTop());
 
 		this.viewAlphaCursor.setLayoutParams(layoutParams);

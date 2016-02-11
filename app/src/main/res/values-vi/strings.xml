@@ -7,7 +7,6 @@
     <string name="title_activity_lyric_display">Kiểm Tra Lời Hát</string>
     <string name="title_activity_open_source">Giấy Phép Mã Nguồn Mở</string>
     <string name="action_settings">Cài Đặt</string>
-    <string name="action_refresh">Làm Mới</string>
     <string name="action_new">Mới</string>
 
     <!--Drawer-->
@@ -86,5 +85,8 @@
     <string name="error_no_attached_audio">Tài liệu lời hát này không có một tập tin âm nhạc gắn liền</string>
 
     <!-- A11y -->
+    <string name="a11y_arrow">Đến</string>
     <string name="a11y_flag">Cờ</string>
+    <string name="a11y_close">Gần</string>
+    <string name="a11y_drag">Kéo</string>
 </resources>

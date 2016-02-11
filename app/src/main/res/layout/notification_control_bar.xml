@@ -12,7 +12,8 @@
         android:layout_alignParentStart="true"
         android:background="#389933ff"
         android:src="@drawable/ic_launcher"
-        android:scaleType="center" />
+        android:scaleType="center"
+        android:contentDescription="@string/app_name" />
     <LinearLayout
         android:id="@+id/buttons"
         android:layout_width="wrap_content"
@@ -46,6 +47,7 @@
             android:id="@+id/back"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_back"
+            android:contentDescription="@string/back"
             style="@android:style/Widget.Holo.Button.Borderless" />
         <ImageButton
             android:layout_width="40dp"
@@ -53,6 +55,7 @@
             android:id="@+id/play"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_play"
+            android:contentDescription="@string/play"
             style="@android:style/Widget.Holo.Button.Borderless" />
         <ImageButton
             android:layout_width="40dp"
@@ -60,6 +63,7 @@
             android:id="@+id/forward"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_forward"
+            android:contentDescription="@string/forward"
             style="@android:style/Widget.Holo.Button.Borderless" />
         <ImageButton
             android:layout_width="40dp"
@@ -67,6 +71,7 @@
             android:id="@+id/close"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_close"
+            android:contentDescription="@string/a11y_close"
             style="@android:style/Widget.Holo.Button.Borderless" />
     </LinearLayout>
     <TextView

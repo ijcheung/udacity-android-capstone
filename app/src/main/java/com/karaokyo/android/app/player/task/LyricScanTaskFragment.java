@@ -208,20 +208,20 @@ public class LyricScanTaskFragment extends Fragment {
             File files[] = directory.listFiles();
 
             if (files != null && files.length > 0) {
-                for (int i = 0; i < files.length; i++) {
-                    if (files[i].isDirectory()) {
-                        newEntries.addAll(scanForLyrics(files[i], providerEntries));
-                    } else if (files[i].getName().endsWith(".klf")) {
-                        Log.i(TAG, files[i].getAbsolutePath());
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        newEntries.addAll(scanForLyrics(file, providerEntries));
+                    } else if (file.getName().endsWith(".klf")) {
+                        Log.i(TAG, file.getAbsolutePath());
                         //Step 1: Check if file already exists in the provider
-                        if (!doesExistInProvider(files[i].getAbsolutePath(), providerEntries)) {
+                        if (!doesExistInProvider(file.getAbsolutePath(), providerEntries)) {
                             try {
                                 //Step 2: Simple XML Validation
-                                if (isValidLyricFile(files[i])) {
+                                if (isValidLyricFile(file)) {
                                     //Step 3: Extract Data
                                     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-                                    Document doc = dBuilder.parse(files[i]);
+                                    Document doc = dBuilder.parse(file);
                                     Element root = doc.getDocumentElement();
                                     String title = root.getElementsByTagName(Constants.KEY_TITLE).item(0).getTextContent();
                                     String artist = root.getElementsByTagName(Constants.KEY_ARTIST).item(0).getTextContent();
@@ -241,12 +241,12 @@ public class LyricScanTaskFragment extends Fragment {
                                     values.put(LyricContract.TITLE, title);
                                     values.put(LyricContract.ARTIST, artist);
                                     values.put(LyricContract.SONG_ID, songId);
-                                    values.put(LyricContract.FILEPATH, files[i].getAbsolutePath());
+                                    values.put(LyricContract.FILEPATH, file.getAbsolutePath());
 
                                     newEntries.add(values);
                                     Log.i(TAG, "Found Lyric: " + title + " - " + artist);
                                 } else {
-                                    Log.i(TAG, "Invalid Lyric File: " + files[i].getName());
+                                    Log.i(TAG, "Invalid Lyric File: " + file.getName());
                                 }
                             } catch (Exception e) {
                                 Log.e(TAG, e.getMessage());

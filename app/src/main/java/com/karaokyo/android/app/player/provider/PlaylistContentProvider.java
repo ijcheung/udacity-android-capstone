@@ -21,7 +21,7 @@ public class PlaylistContentProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
         builder.setTables(PlaylistContract.PLAYLISTS_TABLE_NAME);

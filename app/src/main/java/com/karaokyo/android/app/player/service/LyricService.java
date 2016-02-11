@@ -127,7 +127,7 @@ public class LyricService extends Service implements
         // paused in this state if we don't have audio focus. But we stay in this state
         // so that we know we have to resume playback once we get focus back)
         Paused      // playback paused (media player ready!)
-    };
+    }
 
     private State mState = State.Stopped;
 
@@ -684,10 +684,7 @@ public class LyricService extends Service implements
     }
 
     public boolean isPlaying(){
-        if(mMediaPlayer != null && isSongLoaded() && mMediaPlayer.isPlaying()){
-            return true;
-        }
-        return false;
+        return mMediaPlayer != null && isSongLoaded() && mMediaPlayer.isPlaying();
     }
 
     public void setIsSeeking(boolean seeking){
